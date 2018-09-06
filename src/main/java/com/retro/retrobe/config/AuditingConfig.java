@@ -1,6 +1,6 @@
 package com.retro.retrobe.config;
 
-import com.retro.retrospectivebe.security.UserPrincipal;
+import com.retro.retrobe.security.UserPrincipal;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
