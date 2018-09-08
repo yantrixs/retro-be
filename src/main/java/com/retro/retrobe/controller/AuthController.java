@@ -31,7 +31,6 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
