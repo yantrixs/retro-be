@@ -122,7 +122,7 @@ public class AuthController {
         registrationEmail.setTo(user.getEmail());
         registrationEmail.setSubject("Registration Confirmation");
         registrationEmail.setText("To confirm your e-mail address, please click the link below:\n"
-                + appUrl + "/register?token=" + user.getConfirmationToken());
+                + appUrl + "/auth/register?token=" + user.getConfirmationToken());
 
         emailService.sendEmail(registrationEmail);
 
