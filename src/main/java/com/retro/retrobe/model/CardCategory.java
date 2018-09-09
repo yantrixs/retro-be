@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "card_categories")
-public class CardCategory extends DateAudit {
+public class CardCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -66,7 +66,7 @@ public class CardCategory extends DateAudit {
         return template;
     }
 
-    public void setTemplate(RetroTemplate template) {
+    void setTemplate(RetroTemplate template) {
         this.template = template;
     }
 

@@ -3,6 +3,7 @@ package com.retro.retrobe.controller;
 import com.retro.retrobe.model.RetroTemplate;
 import com.retro.retrobe.payload.ApiResponse;
 import com.retro.retrobe.payload.TemplateRequest;
+import com.retro.retrobe.payload.TemplateResponse;
 import com.retro.retrobe.security.JwtTokenProvider;
 import com.retro.retrobe.service.TemplateService;
 import org.slf4j.Logger;
@@ -20,14 +21,14 @@ public class TemplateController {
     private static final Logger logger = LoggerFactory.getLogger(TemplateController.class);
     private TemplateService templateService;
     @Autowired
-    public TemplateController(final TemplateService templateService, final JwtTokenProvider tokenProvider) {
+    public TemplateController(final TemplateService templateService) {
         this.templateService = templateService;
     }
 
     @GetMapping("templates")
     public ResponseEntity<?> getAllTemplates() {
         try {
-            List<RetroTemplate> templates = templateService.getTemplates();
+            List<TemplateResponse> templates = templateService.getTemplates();
             return new ResponseEntity<>(new ApiResponse<>(true, templates, "templates", 200), HttpStatus.OK);
         }
         catch (Exception e) {

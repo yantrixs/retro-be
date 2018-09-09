@@ -5,6 +5,7 @@ import com.retro.retrobe.model.audit.DateAudit;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,7 +17,7 @@ public class RetroTemplate extends DateAudit {
     private Long id;
 
     @NotBlank
-    @Size(max = 40)
+    @Size(max = 50)
     private String name;
 
     @NotBlank
@@ -33,7 +34,7 @@ public class RetroTemplate extends DateAudit {
             fetch = FetchType.EAGER,
             orphanRemoval = true
     )
-    private List<CardCategory> cardCategories;
+    private List<CardCategory> cardCategories = new ArrayList<>();;
 
     public Long getId() {
         return id;
@@ -73,5 +74,15 @@ public class RetroTemplate extends DateAudit {
 
     public void setCardCategories(List<CardCategory> cardCategories) {
         this.cardCategories = cardCategories;
+    }
+
+    public void addCardCategory(CardCategory cardCategory) {
+        cardCategories.add(cardCategory);
+        cardCategory.setTemplate(this);
+    }
+
+    public void removeChoice(CardCategory cardCategory) {
+        cardCategories.remove(cardCategory);
+        cardCategory.setTemplate(null);
     }
 }
