@@ -10,7 +10,6 @@ import com.retro.retrobe.payload.LoginRequest;
 import com.retro.retrobe.payload.SignUpRequest;
 import com.retro.retrobe.repository.RoleRepository;
 import com.retro.retrobe.repository.UserRepository;
-import com.retro.retrobe.security.CustomUserDetailsService;
 import com.retro.retrobe.security.JwtTokenProvider;
 import com.retro.retrobe.service.EmailService;
 import com.retro.retrobe.service.UserService;
@@ -28,7 +27,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Collections;
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -57,8 +55,7 @@ public class AuthController {
                           final JwtTokenProvider tokenProvider,
                           final PasswordEncoder passwordEncoder,
                           final EmailService emailService,
-                          final UserService userService,
-                          final CustomUserDetailsService userDetailsService) {
+                          final UserService userService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
