@@ -1,6 +1,8 @@
 package com.retro.retrobe.model;
 
 import com.retro.retrobe.model.audit.DateAudit;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -31,10 +33,10 @@ public class RetroTemplate extends DateAudit {
     @OneToMany(
             mappedBy = "template",
             cascade = CascadeType.PERSIST,
-            fetch = FetchType.EAGER,
             orphanRemoval = true
     )
-    private List<CardCategory> cardCategories = new ArrayList<>();;
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<CardCategory> cardCategories = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -81,7 +83,7 @@ public class RetroTemplate extends DateAudit {
         cardCategory.setTemplate(this);
     }
 
-    public void removeChoice(CardCategory cardCategory) {
+    public void removeCardCategory(CardCategory cardCategory) {
         cardCategories.remove(cardCategory);
         cardCategory.setTemplate(null);
     }

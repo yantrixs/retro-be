@@ -34,8 +34,6 @@ public class UserPrincipal implements UserDetails {
         this.name = name;
         this.username = username;
         this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
         this.password = password;
         this.authorities = authorities;
     }

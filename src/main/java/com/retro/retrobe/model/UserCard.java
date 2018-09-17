@@ -7,8 +7,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "card_categories")
-public class CardCategory implements Serializable {
+@Table(name = "user_cards")
+public class UserCard implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,10 +25,9 @@ public class CardCategory implements Serializable {
     @Size(max = 40)
     private String color;
 
-    @Id
-    @ManyToOne(targetEntity = RetroTemplate.class)
-    @PrimaryKeyJoinColumn(name = "template_id", referencedColumnName = "id")
-    private RetroTemplate template;
+    @ManyToOne(targetEntity = UserBoard.class)
+    @PrimaryKeyJoinColumn(name = "user_board_card_id", referencedColumnName = "id")
+    private UserBoard userRetroCard;
 
     public Long getId() {
         return id;
@@ -62,20 +61,20 @@ public class CardCategory implements Serializable {
         this.color = color;
     }
 
-    public RetroTemplate getTemplate() {
-        return template;
+    public UserBoard getUserRetroCard() {
+        return userRetroCard;
     }
 
-    void setTemplate(RetroTemplate template) {
-        this.template = template;
+    public void setUserRetroCard(UserBoard userRetroCard) {
+        this.userRetroCard = userRetroCard;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CardCategory cardCategory = (CardCategory) o;
-        return Objects.equals(id, cardCategory.id);
+        UserCard userCard = (UserCard) o;
+        return Objects.equals(id, userCard.id);
     }
 
     @Override
