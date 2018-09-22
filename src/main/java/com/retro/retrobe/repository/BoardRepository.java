@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface BoardRepository extends JpaRepository<UserBoard, Long> {
     Optional<UserBoard> findByName(String name);
+    Boolean isBoardExit(String boardName);
 }

@@ -1,5 +1,6 @@
 package com.retro.retrobe.util;
 
+import com.retro.retrobe.model.MemberCard;
 import com.retro.retrobe.model.UserBoard;
 import com.retro.retrobe.payload.*;
 
@@ -54,5 +55,35 @@ public class ModalMap {
         board.setArchived(userBoard.isArchived());
         board.setTitle(userBoard.getTitle());
         return board;
+    }
+
+    public static MemberCard cardRequestToMemberCard(CardRequest request) {
+        MemberCard memberCard = new MemberCard();
+        memberCard.setBoarName(request.getBoarName());
+        memberCard.setBoardTitle(request.getBoardTitle());
+        memberCard.setCardCategoryName(request.getCardCategoryName());
+        memberCard.setDislikeCount(request.getDislikeCount());
+        memberCard.setDislikeMessage(request.getDislikeMessage());
+        memberCard.setMemberEmail(request.getMemberEmail());
+        memberCard.setMessage(request.getMessage());
+        memberCard.setLikeMessage(request.getLikeMessage());
+        memberCard.setLikeCount(request.getLikeCount());
+        return memberCard;
+    }
+
+    public static CardResponse memberCardToCardResponse(MemberCard memberCard) {
+        CardResponse cardResponse = new CardResponse();
+        cardResponse.setBoardTitle(memberCard.getBoardTitle());
+        cardResponse.setBoarName(memberCard.getBoarName());
+        cardResponse.setCardCategoryName(memberCard.getCardCategoryName());
+        cardResponse.setCardDate(memberCard.getCreatedAt().toString());
+        cardResponse.setDislikeCount(memberCard.getDislikeCount());
+        cardResponse.setDislikeMessage(memberCard.getDislikeMessage());
+        cardResponse.setMemberEmail(memberCard.getMemberEmail());
+        cardResponse.setMessage(memberCard.getMessage());
+        cardResponse.setLikeCount(memberCard.getLikeCount());
+        cardResponse.setLikeMessage(memberCard.getLikeMessage());
+
+        return cardResponse;
     }
 }
