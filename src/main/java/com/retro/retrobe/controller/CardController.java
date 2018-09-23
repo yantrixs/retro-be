@@ -27,7 +27,7 @@ public class CardController {
 
     @PostMapping("card")
     public CardResponse addNewCard(@RequestBody CardRequest request) {
-        if (boardRepository.isBoardExit(request.getBoarName())) {
+        if (boardRepository.existsBoardByName(request.getBoardName())) {
             return cardService.addNewUserCard(request);
         }
 
@@ -36,7 +36,7 @@ public class CardController {
 
     @GetMapping("cards/{name}")
     public List<CardResponse> getBoardCards(@PathVariable(value = "name") String name) {
-        if (boardRepository.isBoardExit(name)) {
+        if (boardRepository.existsBoardByName(name)) {
             return cardService.getAllBoardCards(name);
         }
 

@@ -59,7 +59,7 @@ public class ModalMap {
 
     public static MemberCard cardRequestToMemberCard(CardRequest request) {
         MemberCard memberCard = new MemberCard();
-        memberCard.setBoarName(request.getBoarName());
+        memberCard.setBoardName(request.getBoardName());
         memberCard.setBoardTitle(request.getBoardTitle());
         memberCard.setCardCategoryName(request.getCardCategoryName());
         memberCard.setDislikeCount(request.getDislikeCount());
@@ -68,13 +68,15 @@ public class ModalMap {
         memberCard.setMessage(request.getMessage());
         memberCard.setLikeMessage(request.getLikeMessage());
         memberCard.setLikeCount(request.getLikeCount());
+        memberCard.setMemberName(request.getMemberName());
+        memberCard.setMemberAbbreviation(request.getMemberAbbreviation());
         return memberCard;
     }
 
     public static CardResponse memberCardToCardResponse(MemberCard memberCard) {
         CardResponse cardResponse = new CardResponse();
         cardResponse.setBoardTitle(memberCard.getBoardTitle());
-        cardResponse.setBoarName(memberCard.getBoarName());
+        cardResponse.setBoardName(memberCard.getBoardName());
         cardResponse.setCardCategoryName(memberCard.getCardCategoryName());
         cardResponse.setCardDate(memberCard.getCreatedAt().toString());
         cardResponse.setDislikeCount(memberCard.getDislikeCount());
@@ -83,7 +85,8 @@ public class ModalMap {
         cardResponse.setMessage(memberCard.getMessage());
         cardResponse.setLikeCount(memberCard.getLikeCount());
         cardResponse.setLikeMessage(memberCard.getLikeMessage());
-
+        cardResponse.setMemberName(memberCard.getMemberName());
+        cardResponse.setMemberAbbreviation(memberCard.getMemberAbbreviation());
         return cardResponse;
     }
 }

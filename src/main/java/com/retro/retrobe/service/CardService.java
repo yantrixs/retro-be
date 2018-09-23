@@ -26,11 +26,9 @@ public class CardService {
     }
 
     public List<CardResponse> getAllBoardCards(String boardName) {
-        List<MemberCard> memberCards = repository.findByBoardName(boardName);
+        List<MemberCard> memberCards = repository.findMemberCardsByBoardName(boardName);
         List<CardResponse> cardResponses = new ArrayList<>();
-        memberCards.forEach(cardMember -> {
-            cardResponses.add(ModalMap.memberCardToCardResponse(cardMember));
-        });
+        memberCards.forEach((MemberCard cardMember) -> cardResponses.add(ModalMap.memberCardToCardResponse(cardMember)));
 
         return cardResponses;
     }

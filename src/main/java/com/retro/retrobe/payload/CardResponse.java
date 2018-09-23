@@ -1,7 +1,7 @@
 package com.retro.retrobe.payload;
 
 public class CardResponse {
-    private String boarName;
+    private String boardName;
     private String boardTitle;
     private String cardCategoryName;
     private String memberEmail;
@@ -11,13 +11,15 @@ public class CardResponse {
     private int dislikeCount;
     private String dislikeMessage;
     private String cardDate;
+    private String memberName;
+    private String memberAbbreviation;
 
-    public String getBoarName() {
-        return boarName;
+    public String getBoardName() {
+        return boardName;
     }
 
-    public void setBoarName(String boarName) {
-        this.boarName = boarName;
+    public void setBoardName(String boardName) {
+        this.boardName = boardName;
     }
 
     public String getBoardTitle() {
@@ -90,5 +92,21 @@ public class CardResponse {
 
     public void setCardDate(String cardDate) {
         this.cardDate = cardDate;
+    }
+
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+
+    public String getMemberAbbreviation() {
+        return memberAbbreviation;
+    }
+
+    public void setMemberAbbreviation(String memberAbbreviation) {
+        this.memberAbbreviation = memberAbbreviation;
     }
 }
