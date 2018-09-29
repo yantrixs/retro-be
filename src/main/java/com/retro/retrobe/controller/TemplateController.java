@@ -1,10 +1,8 @@
 package com.retro.retrobe.controller;
 
-import com.retro.retrobe.model.RetroTemplate;
 import com.retro.retrobe.payload.ApiResponse;
 import com.retro.retrobe.payload.TemplateRequest;
 import com.retro.retrobe.payload.TemplateResponse;
-import com.retro.retrobe.security.JwtTokenProvider;
 import com.retro.retrobe.service.TemplateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

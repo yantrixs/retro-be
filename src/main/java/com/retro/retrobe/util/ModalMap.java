@@ -75,6 +75,7 @@ public class ModalMap {
 
     public static CardResponse memberCardToCardResponse(MemberCard memberCard) {
         CardResponse cardResponse = new CardResponse();
+        cardResponse.setId(memberCard.getId());
         cardResponse.setBoardTitle(memberCard.getBoardTitle());
         cardResponse.setBoardName(memberCard.getBoardName());
         cardResponse.setCardCategoryName(memberCard.getCardCategoryName());

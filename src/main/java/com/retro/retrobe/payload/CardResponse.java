@@ -1,6 +1,7 @@
 package com.retro.retrobe.payload;
 
 public class CardResponse {
+    private Long id;
     private String boardName;
     private String boardTitle;
     private String cardCategoryName;
@@ -13,6 +14,14 @@ public class CardResponse {
     private String cardDate;
     private String memberName;
     private String memberAbbreviation;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getBoardName() {
         return boardName;

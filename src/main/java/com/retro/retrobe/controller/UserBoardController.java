@@ -15,10 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/")
@@ -80,5 +77,14 @@ public class UserBoardController {
         }
 
         return new ApiResponse<>(true, userBoardMap, "User Boards", 200);
+    }
+
+    @GetMapping("{name}/token")
+    public ApiResponse<?> publishToken(@PathVariable(value = "name") String name) {
+        if (repository.existsBoardByName(name)) {
+            String token = UUID.randomUUID().toString();
+            return new ApiResponse<>(true, token, "Generated Token", 200);
+        }
+        return new ApiResponse<>(false, "Board not exist", 400);
     }
 }
