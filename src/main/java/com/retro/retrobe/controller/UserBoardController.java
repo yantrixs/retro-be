@@ -1,20 +1,23 @@
 package com.retro.retrobe.controller;
 
+import com.retro.retrobe.exception.AppException;
 import com.retro.retrobe.exception.ResourceNotFoundException;
-import com.retro.retrobe.model.UserBoard;
-import com.retro.retrobe.payload.ApiResponse;
-import com.retro.retrobe.payload.Board;
-import com.retro.retrobe.payload.BoardResponse;
-import com.retro.retrobe.payload.UserBoardRequest;
+import com.retro.retrobe.model.*;
+import com.retro.retrobe.payload.*;
 import com.retro.retrobe.repository.BoardRepository;
+import com.retro.retrobe.repository.RoleRepository;
+import com.retro.retrobe.repository.UserRepository;
 import com.retro.retrobe.security.CurrentUser;
 import com.retro.retrobe.security.UserPrincipal;
 import com.retro.retrobe.service.BoardService;
+import com.retro.retrobe.service.EmailService;
 import com.retro.retrobe.util.ModalMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @RestController
@@ -23,10 +26,19 @@ public class UserBoardController {
     private static final Logger logger = LoggerFactory.getLogger(UserBoardController.class);
     private BoardService boardService;
     private BoardRepository repository;
-
-    public UserBoardController(final BoardService boardService, final BoardRepository repository) {
+    private UserRepository userRepository;
+    private RoleRepository roleRepository;
+    private EmailService emailService;
+    public UserBoardController(final BoardService boardService,
+                               final BoardRepository repository,
+                               final UserRepository userRepository,
+                               final RoleRepository roleRepository,
+                               final EmailService emailService) {
         this.boardService = boardService;
         this.repository = repository;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.emailService = emailService;
     }
 
     @PostMapping("board")
@@ -86,5 +98,50 @@ public class UserBoardController {
             return new ApiResponse<>(true, token, "Generated Token", 200);
         }
         return new ApiResponse<>(false, "Board not exist", 400);
+    }
+
+    @PostMapping("{name}/manageMembers")
+    public ApiResponse<?> addNewBoardMember(@PathVariable(value = "name") String name, @RequestBody Member member, HttpServletRequest request) {
+        SimpleMailMessage registrationEmail = new SimpleMailMessage();
+        User userInfo = userRepository.findUserByEmail(member.getEmailAddress());
+        if (userInfo != null && userInfo.isEnabled()) {
+            if (repository.existsBoardByName(name)) {
+                UserBoard userBoard = new UserBoard();
+                userBoard.setName(name);
+                BoardMember boardMember = new BoardMember();
+                boardMember.setEmailAddress(member.getEmailAddress());
+                boardMember.setCanContribute(member.isCanContribute());
+                userBoard.addBoardMember(boardMember);
+                repository.saveBoardByName(name, boardMember);
+            }
+            String appUrl = request.getScheme() + "://" + request.getServerName() + ":4200";
+            registrationEmail.setTo(member.getEmailAddress());
+            registrationEmail.setSubject("Invitation Board Member");
+            registrationEmail.setText("To confirm your board request, please click the link below:\n"
+                    + appUrl + "/boards/board/" + name);
+
+            emailService.sendEmail(registrationEmail);
+        } else {
+            User user = new User();
+            Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                    .orElseThrow(() -> new AppException("User Role not set."));
+
+            user.setRoles(Collections.singleton(userRole));
+            user.setEmail(member.getEmailAddress());
+            user.setEnabled(false);
+            user.setConfirmationToken(UUID.randomUUID().toString());
+            userRepository.save(user);
+
+            String appUrl = request.getScheme() + "://" + request.getServerName() + ":4200";
+
+            registrationEmail.setTo(user.getEmail());
+            registrationEmail.setSubject("Registration Confirmation");
+            registrationEmail.setText("To confirm your e-mail address, please click the link below:\n"
+                    + appUrl + "/auth/register?token=" + user.getConfirmationToken() + "&boardName=" + name);
+
+            emailService.sendEmail(registrationEmail);
+        }
+
+        return null;
     }
 }
