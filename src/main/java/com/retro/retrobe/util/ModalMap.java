@@ -1,8 +1,12 @@
 package com.retro.retrobe.util;
 
+import com.retro.retrobe.model.BoardMember;
 import com.retro.retrobe.model.MemberCard;
 import com.retro.retrobe.model.UserBoard;
 import com.retro.retrobe.payload.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ModalMap {
     public static Board mapToUserBoardToBoard(UserBoard userBoard) {
@@ -21,6 +25,7 @@ public class ModalMap {
 
         if (userBoard.getOwner() != null) {
             Owner owner = new Owner();
+            owner.setId(userBoard.getOwner().getId());
             owner.setEmail(userBoard.getOwner().getEmail());
             owner.setFullName(userBoard.getOwner().getFullName());
             board.setOwner(owner);
@@ -29,6 +34,7 @@ public class ModalMap {
         if (userBoard.getBoardMembers() != null && userBoard.getBoardMembers().size() > 0) {
             userBoard.getBoardMembers().forEach(boardMember -> {
                 Member member = new Member();
+                member.setId(boardMember.getId());
                 member.setName(boardMember.getName());
                 member.setAbbreviation(boardMember.getAbbreviation());
                 member.setActive(boardMember.isActive());
@@ -89,5 +95,25 @@ public class ModalMap {
         cardResponse.setMemberName(memberCard.getMemberName());
         cardResponse.setMemberAbbreviation(memberCard.getMemberAbbreviation());
         return cardResponse;
+    }
+
+    public static List<Member> boardMemberToMember(List<BoardMember> boardMembers) {
+        List<Member> members = new ArrayList<>();
+        boardMembers.forEach(boardMember -> {
+            Member member = new Member();
+            member.setId(boardMember.getId());
+            member.setFullName(boardMember.getFullName());
+            member.setName(boardMember.getName());
+            member.setLastName(boardMember.getLastName());
+            member.setFirstName(boardMember.getFirstName());
+            member.setCanContribute(boardMember.isCanContribute());
+            member.setActive(boardMember.isActive());
+            member.setBoardOwner(boardMember.isBoardOwner());
+            member.setEmailAddress(boardMember.getEmailAddress());
+            member.setAbbreviation(boardMember.getAbbreviation());
+            members.add(member);
+        });
+
+        return members;
     }
 }

@@ -42,8 +42,8 @@ public class UserBoard extends DateAudit {
 
     @OneToMany(
             mappedBy = "userMember",
-            cascade = CascadeType.PERSIST,
-            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
             orphanRemoval = true
     )
     @Fetch(value = FetchMode.SUBSELECT)
@@ -55,8 +55,8 @@ public class UserBoard extends DateAudit {
 
     @OneToMany(
             mappedBy = "userRetroCard",
-            cascade = CascadeType.PERSIST,
-            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
             orphanRemoval = true
     )
     @LazyCollection(LazyCollectionOption.FALSE)
