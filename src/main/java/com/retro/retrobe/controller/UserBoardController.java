@@ -5,7 +5,6 @@ import com.retro.retrobe.exception.ResourceNotFoundException;
 import com.retro.retrobe.model.*;
 import com.retro.retrobe.payload.*;
 import com.retro.retrobe.repository.BoardRepository;
-import com.retro.retrobe.repository.MemberRepository;
 import com.retro.retrobe.repository.RoleRepository;
 import com.retro.retrobe.repository.UserRepository;
 import com.retro.retrobe.security.CurrentUser;
@@ -37,8 +36,7 @@ public class UserBoardController {
                                final BoardRepository repository,
                                final UserRepository userRepository,
                                final RoleRepository roleRepository,
-                               final EmailService emailService,
-                               final MemberRepository memberRepository) {
+                               final EmailService emailService) {
         this.boardService = boardService;
         this.repository = repository;
         this.userRepository = userRepository;
@@ -185,6 +183,13 @@ public class UserBoardController {
                 .orElseThrow(() -> new ResourceNotFoundException("Board", "Board name", name));
         List<Member> boardMembers = ModalMap.boardMemberToMember(userBoard.getBoardMembers());
         return new ApiResponse<>(true, boardMembers, "success", 200);
+    }
+
+    @PostMapping("{name}/sendMailToInActiveMember")
+    public void sendMailToMember(@PathVariable(value = "name") String name, @RequestBody Member member, HttpServletRequest request) {
+        String appUrl = request.getScheme() + "://" + request.getServerName() + ":4200";
+        User userInfo = userRepository.findUserByEmail(member.getEmailAddress());
+        sendMailToBoardMember(userInfo, name, appUrl);
     }
 
     private void sendMailToBoardMember(User user, String name, String appUrl) {
